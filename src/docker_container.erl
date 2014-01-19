@@ -53,8 +53,8 @@ export(CID) ->
     erldocker_api:get([containers, CID, export]).
 
 % @doc Start the container.
-start(CID, _Config) ->
-    erldocker_api:post([containers, CID, start]).
+start(CID, Config) ->
+    erldocker_api:post([containers, CID, start], [], Config).
 
 % @doc Allows to bind a directory in the host to the container.
 % Similar to the docker run command with the -b="/host:/mnt".
