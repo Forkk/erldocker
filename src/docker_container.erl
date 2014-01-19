@@ -3,7 +3,7 @@
 
 -export([containers/0, containers/1]).
 -export([container/1]).
--export([create/1]).
+-export([create/2]).
 -export([top/1]).
 -export([changes/1, diff/1]).
 -export([export/1]).
@@ -22,7 +22,7 @@
 
 %
 % Containers
-% http://docs.docker.io/en/latest/api/docker_remote_api_v1.4/#containers
+% http://docs.docker.io/en/latest/api/docker_remote_api_v1.8/#containers
 %
 
 % @doc Identical to the docker ps command.
@@ -35,9 +35,9 @@ container(CID) ->
     ?PROPLIST(erldocker_api:get([containers, CID, json])).
 
 % @doc Creates a container that can then be started.
-% http://docs.docker.io/en/latest/api/docker_remote_api_v1.4/#create-a-container
-create(ConfigBin) ->
-    erldocker_api:post([containers, create], ConfigBin).
+% http://docs.docker.io/en/latest/api/docker_remote_api_v1.8/#create-a-container
+create(ConfigBin, Args) ->
+    erldocker_api:post([containers, create], Args, ConfigBin).
 
 % @doc List processes running inside the container id.
 top(CID) ->
@@ -128,7 +128,7 @@ default_args(stop) ->
 default_args(attach) ->
     [{logs, true}, {stream, false}, {stdin, false}, {stdout, true}, {stderr, true}];
 default_args(commit) ->
-    % http://docs.docker.io/en/latest/api/docker_remote_api_v1.4/#id34
+    % http://docs.docker.io/en/latest/api/docker_remote_api_v1.8/#id34
     [{repo, undefined}, {tag, undefined}, {m, undefined}, {author, undefined}, {run, undefined}];
 default_args(create) ->
     [{hostname, undefined}, {user, undefined}, {detach, false}, {stdin_open, false},
